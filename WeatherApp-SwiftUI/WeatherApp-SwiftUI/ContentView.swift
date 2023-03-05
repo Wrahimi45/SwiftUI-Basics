@@ -12,27 +12,14 @@ struct ContentView: View {
         ZStack {
 //            Color(.blue)
 //                .edgesIgnoringSafeArea(.all) // ignore safe area
-            LinearGradient(gradient: Gradient(colors: [.blue, Color("lightblue")]),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-                .edgesIgnoringSafeArea(.all)
+            BachgroundView(topColor: .blue, bottomColor: Color("lightblue"))
             
             // creating the vStack on top of our zStack
             VStack{
-                Text("Pullman, WA")
-                    .font(.system(size: 32, weight: .medium, design: .default))
-                    .foregroundColor(.white)
-                    .padding()
-                //Vstack for SF sysmbol and temp text
+                CityTextView(cityName: "Pullman, WA")
                 VStack(spacing:-9){
-                    Image(systemName: "cloud.sun.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                    Text("76°")
-                        .font(.system(size: 70, weight: .medium))
-                        .foregroundColor(.white)
+                    MainWeatherStatusView(imageName: "cloud.sun.fill", temperature: 78)
+
                 }
                 .padding(.bottom, 45)
                 
@@ -52,11 +39,7 @@ struct ContentView: View {
                     print("Tapped")
                 } label: {
                     // what the button looks like
-                    Text("Change Day Time")
-                        .frame(width: 280, height: 50)
-                        .background(Color.white)
-                        .font(.system(size: 20, weight: .bold, design: .default))
-                        .cornerRadius(10)
+                    WeatherButtonText(title: "Change Day Time", textColor: .blue, backGroundColor: .white)
                 }
                 Spacer()
             }
@@ -87,8 +70,50 @@ struct WeatherDayView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
             Text("\(temparature)°")
-                .font(.system(size: 28, weight: .medium, design: .default))
+                .font(.system(size: 24, weight: .medium, design: .default))
                 .foregroundColor(.white)
         }
     }
 }
+
+struct BachgroundView: View {
+    var topColor:Color
+    var bottomColor: Color
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]),
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct CityTextView: View{
+    
+    var cityName: String
+    
+    var body: some View{
+        Text(cityName)
+            .font(.system(size: 32, weight: .medium, design: .default))
+            .foregroundColor(.white)
+            .padding()
+    }
+}
+
+struct MainWeatherStatusView: View{
+    
+    var imageName: String
+    var temperature:Int
+    
+    var body: some View{
+        Image(systemName: imageName)
+            .renderingMode(.original)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 180, height: 180)
+        Text("\(temperature)°")
+            .font(.system(size: 70, weight: .medium))
+            .foregroundColor(.white)
+    }
+}
+
+
