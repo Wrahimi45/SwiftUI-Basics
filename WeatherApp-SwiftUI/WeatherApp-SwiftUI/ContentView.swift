@@ -9,18 +9,86 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ZStack {
+//            Color(.blue)
+//                .edgesIgnoringSafeArea(.all) // ignore safe area
+            LinearGradient(gradient: Gradient(colors: [.blue, Color("lightblue")]),
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .edgesIgnoringSafeArea(.all)
+            
+            // creating the vStack on top of our zStack
+            VStack{
+                Text("Pullman, WA")
+                    .font(.system(size: 32, weight: .medium, design: .default))
+                    .foregroundColor(.white)
+                    .padding()
+                //Vstack for SF sysmbol and temp text
+                VStack(spacing:-9){
+                    Image(systemName: "cloud.sun.fill")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 180)
+                    Text("76°")
+                        .font(.system(size: 70, weight: .medium))
+                        .foregroundColor(.white)
+                }
+                .padding(.bottom, 45)
+                
+                
+                HStack(spacing: 8){
+                    WeatherDayView(dayOfWeek: "TUE", imageName: "cloud.sun.fill", temparature: 76)
+                    WeatherDayView(dayOfWeek: "WED", imageName: "cloud.sun.rain.fill", temparature: 70)
+                    WeatherDayView(dayOfWeek: "THU", imageName: "cloud.sun.rain.fill", temparature: 90)
+                    WeatherDayView(dayOfWeek: "FRI", imageName: "cloud.sun.fill", temparature: 70)
+                    WeatherDayView(dayOfWeek: "SAT", imageName: "wind", temparature: 78)
+                    WeatherDayView(dayOfWeek: "SUN", imageName: "cloud.sun.fill", temparature: 76)
+                    WeatherDayView(dayOfWeek: "MON", imageName: "snow", temparature: 76)
+                }
+                Spacer()
+                Button{
+                    // this section is the action, what the button does
+                    print("Tapped")
+                } label: {
+                    // what the button looks like
+                    Text("Change Day Time")
+                        .frame(width: 280, height: 50)
+                        .background(Color.white)
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .cornerRadius(10)
+                }
+                Spacer()
+            }
         }
-        .padding()
+        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct WeatherDayView: View {
+    var dayOfWeek: String
+    var imageName: String
+    var temparature: Int
+    
+    var body: some View {
+        VStack{
+            Text(dayOfWeek)
+                .font(.system(size: 16, weight: .medium, design: .default))
+                .foregroundColor(.white)
+            Image(systemName: imageName)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            Text("\(temparature)°")
+                .font(.system(size: 28, weight: .medium, design: .default))
+                .foregroundColor(.white)
+        }
     }
 }
